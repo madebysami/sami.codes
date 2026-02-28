@@ -33,9 +33,7 @@ const { Content } = await post.render()
           })
         }
       </time>
-      <h1
-        class="mt-2 text-display font-bold text-text-primary"
-      >
+      <h1 class="mt-2 text-display font-bold text-text-primary">
         {post.data.title}
       </h1>
       <div class="mt-4 flex flex-wrap gap-2">
@@ -50,7 +48,7 @@ const { Content } = await post.render()
     </header>
 
     <div
-      class="prose prose-slate max-w-none prose-headings:font-semibold prose-a:text-brand prose-code:font-mono"
+      class="prose prose-slate max-w-none prose-headings:text-text-primary prose-headings:font-semibold prose-p:text-text-primary prose-a:text-brand prose-strong:text-text-primary prose-code:font-mono prose-code:text-text-primary prose-ul:text-text-primary prose-li:text-text-primary"
     >
       <Content />
     </div>
