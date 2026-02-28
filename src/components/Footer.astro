@@ -1,3 +1,29 @@
 ---
-
+import SocialLinks from './SocialLinks.astro'
 ---
+
+<footer class="border-t border-slate-200 dark:border-slate-800">
+  <div class="mx-auto max-w-5xl px-4 py-12">
+    <div
+      class="flex flex-col items-center gap-6 sm:flex-row sm:justify-between"
+    >
+      <div>
+        <p class="font-mono text-sm text-brand">
+          <span class="text-text-secondary-light dark:text-text-secondary-dark"
+            >&lt;</span
+          >Sami Bashraheel<span
+            class="text-text-secondary-light dark:text-text-secondary-dark"
+          >
+            /&gt;</span
+          >
+        </p>
+        <p
+          class="mt-1 text-xs text-text-secondary-light dark:text-text-secondary-dark"
+        >
+          © 2026 Sami Bashraheel
+        </p>
+      </div>
+      <SocialLinks size="sm" />
+    </div>
+  </div>
+</footer>
