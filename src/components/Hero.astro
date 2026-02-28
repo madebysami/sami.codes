@@ -1,3 +1,42 @@
 ---
-
+import SocialLinks from './SocialLinks.astro'
 ---
+
+<section class="mx-auto max-w-5xl px-4 py-section">
+  <div class="max-w-2xl">
+    <p class="mb-4 text-sm font-medium text-brand dark:text-brand-light">
+      Hi, I'm Sami 👋
+    </p>
+    <h1
+      class="mb-6 text-display font-bold text-text-primary-light dark:text-text-primary-dark"
+    >
+      I build digital products and experiments with modern web technologies and <span
+        class="text-brand dark:text-brand-light">Artificial Intelligence</span
+      >.
+    </h1>
+    <p
+      class="mb-8 text-lg text-text-secondary-light dark:text-text-secondary-dark"
+    >
+      Web & AI Developer. I design, build, and ship digital products.
+    </p>
+
+    <!-- CTAs -->
+    <div class="mb-8 flex flex-wrap gap-4">
+      <a
+        href="#projects"
+        class="inline-flex items-center rounded-lg bg-brand px-6 py-3 text-sm font-medium text-white hover:bg-brand-dark transition-colors"
+      >
+        See my work
+      </a>
+      <a
+        href="#contact"
+        class="inline-flex items-center rounded-lg border border-slate-300 px-6 py-3 text-sm font-medium text-text-primary-light hover:border-brand hover:text-brand transition-colors dark:border-slate-700 dark:text-text-primary-dark dark:hover:border-brand-light dark:hover:text-brand-light"
+      >
+        Say Hello
+      </a>
+    </div>
+
+    <!-- Social links -->
+    <SocialLinks />
+  </div>
+</section>
