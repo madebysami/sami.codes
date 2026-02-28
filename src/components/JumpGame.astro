@@ -43,12 +43,15 @@
   const gravity = 0.6
   const jumpForce = -10
   const speed = 3
+  const minObstacleGap = 120 // Minimum px between obstacles
+  let lastObstacleX = 0
 
   function reset() {
     player = { x: 50, y: 110, w: 20, h: 20, vy: 0, grounded: true }
     obstacles = []
     score = 0
     gameRunning = true
+    lastObstacleX = 0
   }
 
   function jump() {
@@ -91,7 +94,12 @@
     ctx.fillRect(player.x, player.y, player.w, player.h)
 
     // Obstacles
-    if (Math.random() < 0.015) {
+    // Lower spawn rate and enforce minimum gap
+    if (
+      (obstacles.length === 0 ||
+        obstacles[obstacles.length - 1].x < canvas.width - minObstacleGap) &&
+      Math.random() < 0.008
+    ) {
       obstacles.push({ x: canvas.width, w: 15, h: 20 + Math.random() * 15 })
     }
     obstacles.forEach((obs, i) => {
