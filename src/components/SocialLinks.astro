@@ -1,4 +1,5 @@
 ---
+import { Github, Twitter, Linkedin, FileCode } from 'lucide-astro'
 interface Props {
   size?: 'sm' | 'md'
 }
@@ -8,39 +9,28 @@ const iconSize = size === 'sm' ? 'h-4 w-4' : 'h-5 w-5'
 const linkClass = `text-text-secondary-light hover:text-brand dark:text-text-secondary-dark dark:hover:text-brand-light transition-colors`
 
 const links = [
-  { label: 'GitHub', href: 'https://github.com/sami', icon: 'github' },
-  { label: 'X / Twitter', href: 'https://x.com/madebysami', icon: 'x' },
-  { label: 'dev.to', href: 'https://dev.to/sami', icon: 'devto' },
+  { label: 'GitHub', href: 'https://github.com/sami', icon: Github },
+  { label: 'X / Twitter', href: 'https://x.com/madebysami', icon: Twitter },
+  { label: 'dev.to', href: 'https://dev.to/sami', icon: FileCode },
   {
     label: 'LinkedIn',
     href: 'https://linkedin.com/in/samibashraheel',
-    icon: 'linkedin',
+    icon: Linkedin,
   },
 ]
 ---
 
 <div class="flex items-center gap-4">
   {
-    links.map((link) => (
+    links.map(({ href, label, icon: Icon }) => (
       <a
-        href={link.href}
+        href={href}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label={link.label}
+        aria-label={label}
         class={linkClass}
       >
-        {/* Replace with actual SVG icons — using placeholder text for now */}
-        <span class={iconSize}>
-          {link.icon === 'github'
-            ? '🐙'
-            : link.icon === 'x'
-              ? '𝕏'
-              : link.icon === 'devto'
-                ? '📝'
-                : link.icon === 'linkedin'
-                  ? '💼'
-                  : '☕'}
-        </span>
+        <Icon class={iconSize} />
       </a>
     ))
   }
