@@ -1,3 +1,61 @@
 ---
+interface Props {
+  title: string
+  description: string
+  liveUrl: string
+  githubUrl?: string
+  techStack: string[]
+}
 
+const { title, description, liveUrl, githubUrl, techStack } = Astro.props
 ---
+
+<article
+  class="group rounded-card border border-slate-200 bg-white p-6 transition-all hover:border-brand/50 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900 dark:hover:border-brand-light/50"
+>
+  <h3
+    class="mb-2 text-lg font-semibold text-text-primary-light dark:text-text-primary-dark"
+  >
+    {title}
+  </h3>
+  <p
+    class="mb-4 text-sm text-text-secondary-light dark:text-text-secondary-dark"
+  >
+    {description}
+  </p>
+
+  <!-- Tech stack tags -->
+  <div class="mb-4 flex flex-wrap gap-2">
+    {
+      techStack.map((tech) => (
+        <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-text-secondary-light dark:bg-slate-800 dark:text-text-secondary-dark">
+          {tech}
+        </span>
+      ))
+    }
+  </div>
+
+  <!-- Links -->
+  <div class="flex gap-4">
+    <a
+      href={liveUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="text-sm font-medium text-brand hover:text-brand-dark dark:text-brand-light dark:hover:text-brand transition-colors"
+    >
+      View live ↗
+    </a>
+    {
+      githubUrl && (
+        <a
+          href={githubUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-sm font-medium text-text-secondary-light hover:text-brand dark:text-text-secondary-dark dark:hover:text-brand-light transition-colors"
+        >
+          GitHub ↗
+        </a>
+      )
+    }
+  </div>
+</article>

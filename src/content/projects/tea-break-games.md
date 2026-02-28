@@ -1,9 +1,8 @@
 ---
-title: "Tea Break Games"
-description: "A collection of mini games to play during tea breaks"
-date: 2024-01-05
-tags: ["games", "entertainment", "web"]
-link: "https://example.com"
+title: 'Tea Break Games'
+description: 'A daily digital sanctuary featuring simple, classic logic and arcade games. No logins, no downloads, just quick sessions designed for a quiet moment.'
+liveUrl: 'https://teabreak.games'
+techStack: ['Handlebars', 'Vanilla JS', 'Canvas']
+featured: true
+order: 3
 ---
-
-This is a placeholder for the Tea Break Games project.
