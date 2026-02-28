@@ -1,14 +1,119 @@
----
-import { Icon } from 'astro-icon/components'
----
-
 <button
   type="button"
-  aria-label="Toggle dark mode"
-  class="theme-toggle rounded-lg p-2 text-text-secondary-light hover:text-text-primary-light dark:text-text-secondary-dark dark:hover:text-text-primary-dark transition-colors"
+  aria-label="Switch theme"
+  class="theme-toggle rounded-lg p-2 text-text-secondary hover:text-text-primary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+  data-theme-toggle
+  tabindex="0"
 >
-  <!-- Sun icon (visible in dark mode) -->
-  <Icon name="tabler:sun" class="hidden dark:block h-5 w-5" />
-  <!-- Moon icon (visible in light mode) -->
-  <Icon name="tabler:moon" class="block dark:hidden h-5 w-5" />
+  <span
+    class="theme-toggle-icon h-5 w-5 transition-transform inline-block"
+    aria-hidden="true"></span>
 </button>
+<span class="theme-toggle-announcer sr-only" aria-live="polite"></span>
+
+<script>
+  // SVG markup for each theme icon (Tabler Icons, minified)
+  const themeSvgs = {
+    dark: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>`,
+    light: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2m11-11h-2M3 12H1m16.95 6.95-1.41-1.41M6.34 6.34 4.93 4.93m12.02 0-1.41 1.41M6.34 17.66l-1.41 1.41"/></svg>`,
+    solarized: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M8 5V3m8 2V3M3 9h18"/></svg>`,
+    dracula: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l3-3m-3 3l-3-3"/><circle cx="12" cy="12" r="9"/></svg>`,
+    forest: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M6 12l6-10 6 10M6 12v8m12-8v8"/></svg>`,
+    neon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2v8h8"/><path d="M2 12a10 10 0 1 0 20 0 10 10 0 0 0-20 0z"/></svg>`,
+    pastel: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M4 12a8 8 0 0 1 16 0"/></svg>`,
+  }
+
+  const themes = [
+    { name: 'dark', label: 'Dark' },
+    { name: 'light', label: 'Light' },
+    { name: 'solarized', label: 'Solarized' },
+    { name: 'dracula', label: 'Dracula' },
+    { name: 'forest', label: 'Forest' },
+    { name: 'neon', label: 'Neon' },
+    { name: 'pastel', label: 'Pastel' },
+  ]
+
+  function setTheme(theme) {
+    // Remove all theme-* classes
+    document.documentElement.className = document.documentElement.className
+      .split(' ')
+      .filter((c) => !c.startsWith('theme-'))
+      .join(' ')
+    document.documentElement.classList.add(`theme-${theme}`)
+    localStorage.setItem('theme', theme)
+  }
+
+  function getTheme() {
+    const stored = localStorage.getItem('theme')
+    if (stored && themes.some((t) => t.name === stored)) return stored
+    return 'dark'
+  }
+
+  function updateIcon(theme) {
+    const themeObj = themes.find((t) => t.name === theme) || themes[0]
+    
+    document.querySelectorAll('.theme-toggle-icon').forEach(iconSpan => {
+      iconSpan.innerHTML = themeSvgs[themeObj.name] || themeSvgs['dark']
+      iconSpan.classList.remove('spin-once')
+      void iconSpan.offsetWidth
+      iconSpan.classList.add('spin-once')
+    })
+    
+    document.querySelectorAll('[data-theme-toggle]').forEach(btn => {
+      btn.setAttribute(
+        'aria-label',
+        `Switch theme (current: ${themeObj.label})`
+      )
+    })
+
+    // Announce theme change for screen readers
+    document.querySelectorAll('.theme-toggle-announcer').forEach(announcer => {
+      announcer.textContent = `Theme changed to ${themeObj.label}`
+    })
+  }
+
+  // Initialize theme immediately
+  const initialTheme = getTheme()
+  setTheme(initialTheme)
+
+  // Wait for DOM to be ready for icon update and event listener
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initThemeToggle)
+  } else {
+    initThemeToggle()
+  }
+
+  function toggleTheme() {
+    const idx = themes.findIndex((t) => t.name === getTheme())
+    const next = themes[(idx + 1) % themes.length]
+    setTheme(next.name)
+    updateIcon(next.name)
+  }
+
+  function initThemeToggle() {
+    const theme = getTheme()
+    updateIcon(theme)
+
+    document.querySelectorAll('[data-theme-toggle]').forEach(btn => {
+      btn.removeEventListener('click', toggleTheme)
+      btn.addEventListener('click', toggleTheme)
+    })
+  }
+
+  // Add spin animation style
+  if (!document.getElementById('theme-toggle-spin-style')) {
+    const style = document.createElement('style')
+    style.id = 'theme-toggle-spin-style'
+    style.innerHTML = `
+      .spin-once {
+        animation: spin 0.5s cubic-bezier(0.4,0,0.2,1);
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        80% { transform: rotate(340deg); }
+        100% { transform: rotate(360deg); }
+      }
+    `
+    document.head.appendChild(style)
+  }
+</script>

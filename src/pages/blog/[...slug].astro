@@ -23,7 +23,7 @@ const { Content } = await post.render()
     <header class="mb-12">
       <time
         datetime={post.data.pubDate.toISOString()}
-        class="text-sm text-text-secondary-light dark:text-text-secondary-dark"
+        class="text-sm text-text-secondary"
       >
         {
           post.data.pubDate.toLocaleDateString('en-GB', {
@@ -34,14 +34,14 @@ const { Content } = await post.render()
         }
       </time>
       <h1
-        class="mt-2 text-display font-bold text-text-primary-light dark:text-text-primary-dark"
+        class="mt-2 text-display font-bold text-text-primary"
       >
         {post.data.title}
       </h1>
       <div class="mt-4 flex flex-wrap gap-2">
         {
           post.data.tags.map((tag: string) => (
-            <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-text-secondary-light dark:bg-slate-800 dark:text-text-secondary-dark">
+            <span class="rounded-full bg-surface-alt px-3 py-1 text-xs font-medium text-text-secondary">
               {tag}
             </span>
           ))
@@ -50,7 +50,7 @@ const { Content } = await post.render()
     </header>
 
     <div
-      class="prose prose-slate dark:prose-invert max-w-none prose-headings:font-semibold prose-a:text-brand dark:prose-a:text-brand-light prose-code:font-mono"
+      class="prose prose-slate max-w-none prose-headings:font-semibold prose-a:text-brand prose-code:font-mono"
     >
       <Content />
     </div>
