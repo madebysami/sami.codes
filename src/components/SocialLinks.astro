@@ -1,5 +1,5 @@
 ---
-import { Github, Twitter, Linkedin, FileCode } from 'lucide-astro'
+import { Icon } from 'astro-icon/components'
 interface Props {
   size?: 'sm' | 'md'
 }
@@ -9,20 +9,28 @@ const iconSize = size === 'sm' ? 'h-4 w-4' : 'h-5 w-5'
 const linkClass = `text-text-secondary-light hover:text-brand dark:text-text-secondary-dark dark:hover:text-brand-light transition-colors`
 
 const links = [
-  { label: 'GitHub', href: 'https://github.com/sami', icon: Github },
-  { label: 'X / Twitter', href: 'https://x.com/madebysami', icon: Twitter },
-  { label: 'dev.to', href: 'https://dev.to/sami', icon: FileCode },
+  {
+    label: 'GitHub',
+    href: 'https://github.com/sami',
+    icon: 'tabler:brand-github',
+  },
+  {
+    label: 'X / Twitter',
+    href: 'https://x.com/madebysami',
+    icon: 'tabler:brand-x',
+  },
+  { label: 'dev.to', href: 'https://dev.to/sami', icon: 'tabler:code' },
   {
     label: 'LinkedIn',
     href: 'https://linkedin.com/in/samibashraheel',
-    icon: Linkedin,
+    icon: 'tabler:brand-linkedin',
   },
 ]
 ---
 
 <div class="flex items-center gap-4">
   {
-    links.map(({ href, label, icon: Icon }) => (
+    links.map(({ href, label, icon }) => (
       <a
         href={href}
         target="_blank"
@@ -30,7 +38,7 @@ const links = [
         aria-label={label}
         class={linkClass}
       >
-        <Icon class={iconSize} />
+        <Icon name={icon} class={iconSize} />
       </a>
     ))
   }

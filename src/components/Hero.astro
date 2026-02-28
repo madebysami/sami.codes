@@ -1,6 +1,6 @@
 ---
 import ThemeToggle from './ThemeToggle.astro'
-import { Menu } from 'lucide-astro'
+import { Icon } from 'astro-icon/components'
 
 const navLinks = [
   { label: 'Projects', href: '/#projects' },
@@ -53,7 +53,7 @@ const navLinks = [
         aria-expanded="false"
         class="rounded-lg p-2 text-text-secondary-light hover:text-text-primary-light dark:text-text-secondary-dark dark:hover:text-text-primary-dark"
       >
-        <Menu class="h-6 w-6" />
+        <Icon name="tabler:menu-2" class="h-6 w-6" />
       </button>
     </div>
   </nav>
