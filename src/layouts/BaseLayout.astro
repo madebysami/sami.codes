@@ -36,7 +36,7 @@ const {
 
     <SEO {title} {description} {image} {canonicalURL} />
 
-    <!-- Theme: prevent flash of wrong theme -->
+    <!-- Theme: prevent flash of wrong theme and handle toggle -->
     <script is:inline>
       const theme = localStorage.getItem('theme')
       if (
@@ -45,6 +45,15 @@ const {
       ) {
         document.documentElement.classList.add('dark')
       }
+      // Attach event to all theme toggles
+      window.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.theme-toggle').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const isDark = document.documentElement.classList.toggle('dark')
+            localStorage.setItem('theme', isDark ? 'dark' : 'light')
+          })
+        })
+      })
     </script>
   </head>
   <body class="font-sans antialiased">

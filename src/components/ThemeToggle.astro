@@ -3,22 +3,12 @@ import { Icon } from 'astro-icon/components'
 ---
 
 <button
-  id="theme-toggle"
   type="button"
   aria-label="Toggle dark mode"
-  class="rounded-lg p-2 text-text-secondary-light hover:text-text-primary-light dark:text-text-secondary-dark dark:hover:text-text-primary-dark transition-colors"
+  class="theme-toggle rounded-lg p-2 text-text-secondary-light hover:text-text-primary-light dark:text-text-secondary-dark dark:hover:text-text-primary-dark transition-colors"
 >
   <!-- Sun icon (visible in dark mode) -->
   <Icon name="tabler:sun" class="hidden dark:block h-5 w-5" />
   <!-- Moon icon (visible in light mode) -->
   <Icon name="tabler:moon" class="block dark:hidden h-5 w-5" />
 </button>
-
-<script>
-  const toggle = document.getElementById('theme-toggle')
-
-  toggle?.addEventListener('click', () => {
-    const isDark = document.documentElement.classList.toggle('dark')
-    localStorage.setItem('theme', isDark ? 'dark' : 'light')
-  })
-</script>
