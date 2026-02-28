@@ -1,8 +1,69 @@
 ---
+import { getCollection } from 'astro:content'
 import BaseLayout from '../../layouts/BaseLayout.astro'
+
+const posts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+
+function readingTime(body: string): string {
+  const words = body.split(/\s+/).length
+  const minutes = Math.ceil(words / 200)
+  return `${minutes} min read`
+}
 ---
 
-<BaseLayout>
-  <h1>Blog</h1>
-  <p>Posts coming soon...</p>
+<BaseLayout
+  title="Blog"
+  description="Writing about web development, AI, and building in public."
+>
+  <section class="mx-auto max-w-3xl px-4 py-section">
+    <h1
+      class="mb-2 text-display font-bold text-text-primary-light dark:text-text-primary-dark"
+    >
+      Blog
+    </h1>
+    <p
+      class="mb-12 text-lg text-text-secondary-light dark:text-text-secondary-dark"
+    >
+      Writing about web development, AI, and building in public.
+    </p>
+
+    <div class="space-y-8">
+      {
+        posts.map((post) => (
+          <article class="group">
+            <a href={`/blog/${post.slug}`} class="block">
+              <time
+                datetime={post.data.pubDate.toISOString()}
+                class="text-sm text-text-secondary-light dark:text-text-secondary-dark"
+              >
+                {post.data.pubDate.toLocaleDateString('en-GB', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </time>
+              <h2 class="mt-1 text-xl font-semibold text-text-primary-light group-hover:text-brand dark:text-text-primary-dark dark:group-hover:text-brand-light transition-colors">
+                {post.data.title}
+              </h2>
+              <p class="mt-2 text-text-secondary-light dark:text-text-secondary-dark">
+                {post.data.description}
+              </p>
+              <div class="mt-3 flex flex-wrap gap-2">
+                {post.data.tags.map((tag: string) => (
+                  <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-text-secondary-light dark:bg-slate-800 dark:text-text-secondary-dark">
+                    {tag}
+                  </span>
+                ))}
+                <span class="text-xs text-text-secondary-light dark:text-text-secondary-dark">
+                  · {readingTime(post.body)}
+                </span>
+              </div>
+            </a>
+          </article>
+        ))
+      }
+    </div>
+  </section>
 </BaseLayout>
