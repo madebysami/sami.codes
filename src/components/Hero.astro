@@ -1,90 +1,18 @@
 ---
-import ThemeToggle from './ThemeToggle.astro'
-import { Icon } from 'astro-icon/components'
-
-const navLinks = [
-  { label: 'Projects', href: '/#projects' },
-  { label: 'Blog', href: '/blog' },
-  { label: 'About', href: '/about' },
-  { label: 'Contact', href: '/#contact' },
-]
+// ...existing code...
 ---
 
-<header
-  class="sticky top-0 z-40 w-full border-b border-slate-200 bg-surface-light/80 backdrop-blur-md dark:border-slate-800 dark:bg-surface-dark/80"
->
-  <nav
-    class="mx-auto flex max-w-5xl items-center justify-between px-4 py-4"
-    aria-label="Main navigation"
+<section class="mx-auto max-w-5xl px-4 py-section text-center">
+  <h1 class="mb-4 text-display font-bold text-brand">
+    Hi, I'm Sami Bashraheel
+  </h1>
+  <p
+    class="mb-8 text-lg text-text-secondary-light dark:text-text-secondary-dark"
   >
-    <!-- Logo / Name -->
-    <a href="/" class="font-mono text-lg font-medium text-brand">
-      <span class="text-text-secondary-light dark:text-text-secondary-dark"
-        >&lt;</span
-      >Sami Bashraheel<span
-        class="text-text-secondary-light dark:text-text-secondary-dark"
-      >
-        /&gt;</span
-      >
-    </a>
+    Web & AI Developer. I build digital products and experiments with modern web
+    technologies.
+  </p>
+  <!-- Add any hero image, call-to-action, or animation here if desired -->
+</section>
 
-    <!-- Desktop nav -->
-    <div class="hidden items-center gap-6 md:flex">
-      {
-        navLinks.map((link) => (
-          <a
-            href={link.href}
-            class="text-sm font-medium text-text-secondary-light hover:text-brand transition-colors dark:text-text-secondary-dark dark:hover:text-brand-light"
-          >
-            {link.label}
-          </a>
-        ))
-      }
-      <ThemeToggle />
-    </div>
-
-    <!-- Mobile menu button -->
-    <div class="flex items-center gap-2 md:hidden">
-      <ThemeToggle />
-      <button
-        id="mobile-menu-btn"
-        type="button"
-        aria-label="Open menu"
-        aria-expanded="false"
-        class="rounded-lg p-2 text-text-secondary-light hover:text-text-primary-light dark:text-text-secondary-dark dark:hover:text-text-primary-dark"
-      >
-        <Icon name="tabler:menu-2" class="h-6 w-6" />
-      </button>
-    </div>
-  </nav>
-
-  <!-- Mobile menu panel -->
-  <div
-    id="mobile-menu"
-    class="hidden border-t border-slate-200 bg-surface-light dark:border-slate-800 dark:bg-surface-dark md:hidden"
-  >
-    <div class="space-y-1 px-4 py-3">
-      {
-        navLinks.map((link) => (
-          <a
-            href={link.href}
-            class="block rounded-md px-3 py-2 text-base font-medium text-text-secondary-light hover:bg-slate-100 hover:text-brand dark:text-text-secondary-dark dark:hover:bg-slate-800 dark:hover:text-brand-light"
-          >
-            {link.label}
-          </a>
-        ))
-      }
-    </div>
-  </div>
-</header>
-
-<script>
-  const btn = document.getElementById('mobile-menu-btn')
-  const menu = document.getElementById('mobile-menu')
-
-  btn?.addEventListener('click', () => {
-    const isOpen = menu?.classList.toggle('hidden') === false
-    btn.setAttribute('aria-expanded', String(isOpen))
-    btn.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu')
-  })
-</script>
+// ...existing code...
