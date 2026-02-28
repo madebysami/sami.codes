@@ -29,6 +29,7 @@
     padding: 0.5rem 1rem;
     transition: transform 0.2s;
   }
+
   .skip-link:focus {
     display: block;
   }
@@ -43,8 +44,9 @@
   --color-surface: #ffffff;
   --color-surface-alt: #f8fafc;
   --color-text-primary: #1e293b;
-  --color-text-secondary: #64748b;
+  --color-text-secondary: #475569;
 }
+
 .theme-dark {
   --color-brand: #6366f1;
   --color-brand-light: #818cf8;
@@ -54,15 +56,17 @@
   --color-text-primary: #f1f5f9;
   --color-text-secondary: #94a3b8;
 }
+
 .theme-solarized {
   --color-brand: #268bd2;
   --color-brand-light: #6caedd;
   --color-brand-dark: #17445e;
   --color-surface: #fdf6e3;
   --color-surface-alt: #eee8d5;
-  --color-text-primary: #657b83;
-  --color-text-secondary: #93a1a1;
+  --color-text-primary: #073642;
+  --color-text-secondary: #586e75;
 }
+
 .theme-dracula {
   --color-brand: #bd93f9;
   --color-brand-light: #d6acff;
@@ -70,33 +74,35 @@
   --color-surface: #282a36;
   --color-surface-alt: #44475a;
   --color-text-primary: #f8f8f2;
-  --color-text-secondary: #6272a4;
+  --color-text-secondary: #aec0d6;
 }
+
 .theme-forest {
-  --color-brand: #228b22;
-  --color-brand-light: #6fcf97;
-  --color-brand-dark: #14532d;
+  --color-brand: #059669;
+  --color-brand-light: #34d399;
+  --color-brand-dark: #047857;
   --color-surface: #f0fdf4;
   --color-surface-alt: #dcfce7;
   --color-text-primary: #14532d;
-  --color-text-secondary: #4ade80;
+  --color-text-secondary: #166534;
 }
+
 .theme-neon {
   --color-brand: #39ff14;
   --color-brand-light: #76ffb8;
   --color-brand-dark: #00b140;
   --color-surface: #18181b;
   --color-surface-alt: #27272a;
-  --color-text-primary: #f1f5f9;
-  --color-text-secondary: #39ff14;
-}
-.theme-pastel {
-  --color-brand: #a5a6f6;
-  --color-brand-light: #f6a5c0;
-  --color-brand-dark: #a5f6e7;
-  --color-surface: #fff1f1;
-  --color-surface-alt: #f1f6ff;
-  --color-text-primary: #6b7280;
-  --color-text-secondary: #a5a6f6;
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #a1a1aa;
 }
 
+.theme-pastel {
+  --color-brand: #8b5cf6;
+  --color-brand-light: #a78bfa;
+  --color-brand-dark: #7c3aed;
+  --color-surface: #fff1f1;
+  --color-surface-alt: #fce7f3;
+  --color-text-primary: #4c1d95;
+  --color-text-secondary: #5b21b6;
+}
