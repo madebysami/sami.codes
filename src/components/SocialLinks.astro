@@ -1,3 +1,47 @@
 ---
+interface Props {
+  size?: 'sm' | 'md'
+}
 
+const { size = 'md' } = Astro.props
+const iconSize = size === 'sm' ? 'h-4 w-4' : 'h-5 w-5'
+const linkClass = `text-text-secondary-light hover:text-brand dark:text-text-secondary-dark dark:hover:text-brand-light transition-colors`
+
+const links = [
+  { label: 'GitHub', href: 'https://github.com/sami', icon: 'github' },
+  { label: 'X / Twitter', href: 'https://x.com/madebysami', icon: 'x' },
+  { label: 'dev.to', href: 'https://dev.to/sami', icon: 'devto' },
+  {
+    label: 'LinkedIn',
+    href: 'https://linkedin.com/in/samibashraheel',
+    icon: 'linkedin',
+  },
+]
 ---
+
+<div class="flex items-center gap-4">
+  {
+    links.map((link) => (
+      <a
+        href={link.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={link.label}
+        class={linkClass}
+      >
+        {/* Replace with actual SVG icons — using placeholder text for now */}
+        <span class={iconSize}>
+          {link.icon === 'github'
+            ? '🐙'
+            : link.icon === 'x'
+              ? '𝕏'
+              : link.icon === 'devto'
+                ? '📝'
+                : link.icon === 'linkedin'
+                  ? '💼'
+                  : '☕'}
+        </span>
+      </a>
+    ))
+  }
+</div>
