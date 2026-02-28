@@ -1,3 +1,35 @@
 ---
-
+const technologies = [
+  { name: 'TypeScript', icon: '🔷' },
+  { name: 'React', icon: '⚛️' },
+  { name: 'Astro', icon: '🚀' },
+  { name: 'Tailwind CSS', icon: '🎨' },
+  { name: 'Python', icon: '🐍' },
+  { name: 'Node.js', icon: '🟢' },
+  { name: 'Git', icon: '🔧' },
+]
 ---
+
+<section class="mx-auto max-w-5xl px-4 py-section">
+  <h2
+    class="mb-2 text-heading font-bold text-text-primary-light dark:text-text-primary-dark"
+  >
+    Tech Stack
+  </h2>
+  <p class="mb-8 text-text-secondary-light dark:text-text-secondary-dark">
+    Technologies I work with.
+  </p>
+
+  <div class="flex flex-wrap gap-4">
+    {
+      technologies.map((tech) => (
+        <div class="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 dark:border-slate-800 dark:bg-slate-900">
+          <span class="text-xl">{tech.icon}</span>
+          <span class="text-sm font-medium text-text-primary-light dark:text-text-primary-dark">
+            {tech.name}
+          </span>
+        </div>
+      ))
+    }
+  </div>
+</section>
