@@ -1,3 +1,44 @@
 ---
-
+import SocialLinks from './SocialLinks.astro'
 ---
+
+<section id="contact" class="mx-auto max-w-5xl px-4 py-section">
+  <h2
+    class="mb-2 text-heading font-bold text-text-primary-light dark:text-text-primary-dark"
+  >
+    Say Hello
+  </h2>
+  <p
+    class="mb-8 max-w-lg text-text-secondary-light dark:text-text-secondary-dark"
+  >
+    Got a project idea, a question, or just want to connect? I'd love to hear
+    from you.
+  </p>
+
+  <a
+    id="email-cta"
+    href="#"
+    class="mb-8 inline-flex items-center rounded-lg bg-brand px-6 py-3 text-sm font-medium text-white hover:bg-brand-dark transition-colors"
+  >
+    Send me an email
+  </a>
+
+  <div class="mt-8">
+    <p
+      class="mb-3 text-sm text-text-secondary-light dark:text-text-secondary-dark"
+    >
+      Or find me on:
+    </p>
+    <SocialLinks />
+  </div>
+</section>
+
+<script>
+  const link = document.getElementById('email-cta') as HTMLAnchorElement
+  const user = 'hello'
+  const domain = 'sami.codes'
+  link.addEventListener('click', (e) => {
+    e.preventDefault()
+    window.location.href = `mailto:${user}@${domain}`
+  })
+</script>
