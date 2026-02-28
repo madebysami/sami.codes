@@ -1,8 +1,66 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
+import SocialLinks from '../components/SocialLinks.astro'
 ---
 
-<BaseLayout>
-  <h1>About Me</h1>
-  <p>Welcome to my personal website.</p>
+<BaseLayout
+  title="About"
+  description="Learn more about Sami Bashraheel — Web & AI Developer building digital products and experiments."
+>
+  <section class="mx-auto max-w-3xl px-4 py-section">
+    <h1
+      class="mb-8 text-display font-bold text-text-primary-light dark:text-text-primary-dark"
+    >
+      About
+    </h1>
+
+    <div
+      class="prose prose-slate dark:prose-invert max-w-none prose-a:text-brand dark:prose-a:text-brand-light"
+    >
+      <p class="text-lg">
+        I'm <strong>Sami Bashraheel</strong>, a Web & AI Developer. I build
+        digital products and experiments using modern web technologies and
+        Artificial Intelligence.
+      </p>
+
+      <p>
+        I design, develop, and ship products that solve real problems — from
+        interactive learning tools to developer utilities and beyond.
+      </p>
+
+      <p>
+        I believe great software should be fast, accessible, and beautifully
+        crafted. Every project I build targets <strong
+          >100/100 Lighthouse scores</strong
+        > and <strong>WCAG 2.1 AA</strong> accessibility as a minimum. Performance
+        isn't a nice-to-have — it's a requirement.
+      </p>
+
+      <h2>How I work</h2>
+
+      <p>
+        I work in public. I document what I learn, share what I build, and write
+        about the decisions behind the code. If you're following along, you'll
+        see the real process — not just the polished result.
+      </p>
+
+      <p>
+        My current tech stack centres on <strong>Astro</strong>, <strong
+          >React</strong
+        >, <strong>TypeScript</strong>, and <strong>Tailwind CSS</strong> for the
+        web, with <strong>Python</strong> for AI and data work. I'm always learning.
+      </p>
+
+      <h2>Get in touch</h2>
+
+      <p>
+        I'm always open to interesting conversations, collaborations, or just a
+        friendly hello. Find me on the usual platforms:
+      </p>
+    </div>
+
+    <div class="mt-8">
+      <SocialLinks />
+    </div>
+  </section>
 </BaseLayout>
