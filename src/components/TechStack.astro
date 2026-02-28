@@ -1,12 +1,14 @@
 ---
+import { Icon } from 'astro-icon/components'
+
 const technologies = [
-  { name: 'TypeScript', icon: '🔷' },
-  { name: 'React', icon: '⚛️' },
-  { name: 'Astro', icon: '🚀' },
-  { name: 'Tailwind CSS', icon: '🎨' },
-  { name: 'Python', icon: '🐍' },
-  { name: 'Node.js', icon: '🟢' },
-  { name: 'Git', icon: '🔧' },
+  { name: 'TypeScript', icon: 'tabler:brand-typescript' },
+  { name: 'React', icon: 'tabler:brand-react' },
+  { name: 'Astro', icon: 'tabler:rocket' },
+  { name: 'Tailwind CSS', icon: 'tabler:brand-tailwind' },
+  { name: 'Python', icon: 'tabler:brand-python' },
+  { name: 'Node.js', icon: 'tabler:brand-nodejs' },
+  { name: 'Git', icon: 'tabler:brand-git' },
 ]
 ---
 
@@ -22,11 +24,11 @@ const technologies = [
 
   <div class="flex flex-wrap gap-4">
     {
-      technologies.map((tech) => (
+      technologies.map(({ name, icon }) => (
         <div class="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 dark:border-slate-800 dark:bg-slate-900">
-          <span class="text-xl">{tech.icon}</span>
+          <Icon name={icon} class="h-5 w-5 text-brand dark:text-brand-light" />
           <span class="text-sm font-medium text-text-primary-light dark:text-text-primary-dark">
-            {tech.name}
+            {name}
           </span>
         </div>
       ))
