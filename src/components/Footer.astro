@@ -15,3 +15,19 @@ import SocialLinks from './SocialLinks.astro'
   </button>
   <p>London, UK.</p>
 </footer>
+<script>
+  const cookieBtn = document.getElementById('cookie-preferences')
+  if (cookieBtn) {
+    cookieBtn.addEventListener('click', () => {
+      const accepted = localStorage.getItem('cookiesAccepted') === 'true'
+
+      if (accepted) {
+        localStorage.removeItem('cookiesAccepted')
+        alert('Cookies cleared. You are invisible again 🥷')
+      } else {
+        localStorage.setItem('cookiesAccepted', 'true')
+        alert('Cookie preferences saved. We now pretend to track you 🍪')
+      }
+    })
+  }
+</script>
