@@ -263,3 +263,14 @@ body::before {
     opacity: 0.25;
   }
 }
+
+/* --- LOGO STYLES --- */
+.logo-bracket {
+  fill: var(--color-brand);
+  transition: fill 0.5s;
+}
+
+.logo-name {
+  fill: var(--color-text-primary);
+  transition: fill 0.5s;
+}
