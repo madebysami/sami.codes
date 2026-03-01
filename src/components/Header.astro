@@ -1,95 +1,78 @@
 ---
 import ThemeToggle from './ThemeToggle.astro'
-
-const navLinks = [
-  { label: 'Projects', href: '/#projects' },
-  { label: 'Blog', href: '/blog' },
-  { label: 'Contact', href: '/#contact' },
-]
 ---
 
 <header
-  class="sticky top-0 z-40 w-full border-b border-slate-200/50 bg-surface/80 backdrop-blur-md"
+  class="py-10 flex flex-col md:flex-row gap-6 justify-between items-center w-full relative z-20"
+  role="banner"
 >
+  <!-- Developer Logo -->
+  <a
+    href="/"
+    class="logo select-none"
+    role="img"
+    aria-label="Sami Bashraheel Logo"
+  >
+    <svg
+      width="280"
+      height="50"
+      viewBox="0 0 280 50"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <title>Sami Bashraheel</title>
+      <text
+        x="0"
+        y="35"
+        font-family="'Fira Code', monospace"
+        font-size="24"
+        class="logo-bracket"
+        font-weight="bold">&lt;</text
+      >
+      <text
+        x="20"
+        y="35"
+        font-family="'Fira Code', monospace"
+        font-size="24"
+        class="logo-name"
+        font-weight="bold">Sami Bashraheel</text
+      >
+      <text
+        x="250"
+        y="35"
+        font-family="'Fira Code', monospace"
+        font-size="24"
+        class="logo-bracket"
+        font-weight="bold">/&gt;</text
+      >
+    </svg>
+  </a>
+
+  <!-- Controls -->
   <nav
-    class="mx-auto flex max-w-5xl items-center justify-between px-4 py-4"
-    aria-label="Main navigation"
+    class="flex items-center gap-3 flex-wrap justify-center"
+    aria-label="Site controls"
   >
-    <!-- Logo / Name -->
-    <a href="/" class="font-mono text-lg font-medium text-brand">
-      <span class="text-text-secondary">&lt;</span>Sami Bashraheel<span
-        class="text-text-secondary">/&gt;</span
-      >
-    </a>
-
-    <!-- Desktop nav -->
-    <div class="hidden items-center gap-6 md:flex">
-      {
-        navLinks.map((link) => (
-          <a
-            href={link.href}
-            class="text-sm font-medium text-text-secondary hover:text-brand transition-colors"
-          >
-            {link.label}
-          </a>
-        ))
-      }
-      <ThemeToggle />
-    </div>
-
-    <!-- Mobile menu button -->
-    <div class="flex items-center gap-2 md:hidden">
-      <ThemeToggle />
-      <button
-        id="mobile-menu-btn"
-        type="button"
-        aria-label="Open menu"
-        aria-expanded="false"
-        class="rounded-lg p-2 text-text-secondary hover:text-text-primary transition-colors"
-      >
-        <svg
-          class="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
-      </button>
-    </div>
+    <ThemeToggle />
+    <button
+      id="contact-trigger"
+      class="cta-btn px-6 py-2 rounded-lg"
+      aria-label="Contact via email"
+    >
+      Say Hello 👋
+    </button>
   </nav>
-
-  <!-- Mobile menu panel -->
-  <div
-    id="mobile-menu"
-    class="hidden border-t border-slate-200/50 bg-surface md:hidden"
-  >
-    <div class="space-y-1 px-4 py-3">
-      {
-        navLinks.map((link) => (
-          <a
-            href={link.href}
-            class="block rounded-md px-3 py-2 text-base font-medium text-text-secondary hover:bg-surface-alt hover:text-brand transition-colors"
-          >
-            {link.label}
-          </a>
-        ))
-      }
-    </div>
-  </div>
 </header>
 
 <script>
-  const btn = document.getElementById('mobile-menu-btn')
-  const menu = document.getElementById('mobile-menu')
-
-  btn?.addEventListener('click', () => {
-    const isOpen = menu?.classList.toggle('hidden') === false
-    btn.setAttribute('aria-expanded', String(isOpen))
-    btn.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu')
-  })
+  // Contact CTA Handler
+  const contactTrigger = document.getElementById('contact-trigger')
+  if (contactTrigger) {
+    contactTrigger.addEventListener('click', function (e) {
+      const email = 'hello@sami.codes'
+      window.location.href = 'mailto:' + email
+      this.textContent = email
+    })
+  }
 </script>

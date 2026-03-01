@@ -2,15 +2,16 @@
 import SocialLinks from './SocialLinks.astro'
 ---
 
-<footer class="border-t border-slate-200">
-  <div class="mx-auto max-w-5xl px-4 py-12">
-    <div
-      class="flex flex-col items-center gap-6 sm:flex-row sm:justify-between"
-    >
-      <div>
-        <p class="mt-1 text-xs text-text-secondary">© 2026 Sami Bashraheel</p>
-      </div>
-      <SocialLinks size="sm" />
-    </div>
-  </div>
+<footer
+  class="py-10 flex flex-col md:flex-row justify-between items-center text-xs font-mono gap-2 text-text-secondary w-full"
+  role="contentinfo"
+>
+  <p>&copy; 2026 Sami Bashraheel.</p>
+  <button
+    id="cookie-preferences"
+    class="underline hover:no-underline cursor-pointer transition-opacity hover:opacity-80 text-text-secondary bg-transparent border-none font-inherit text-inherit"
+  >
+    Cookie Preferences
+  </button>
+  <p>London, UK.</p>
 </footer>

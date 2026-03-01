@@ -19,7 +19,7 @@ const {
 } = Astro.props
 ---
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
   <head>
     <meta charset="utf-8" />
@@ -30,25 +30,48 @@ const {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
 
-    <SEO {title} {description} {image} {canonicalURL} />
+    <SEO
+      title={title}
+      description={description}
+      image={image}
+      canonicalURL={canonicalURL}
+    />
 
     <!-- Theme logic handled by ThemeToggle.astro -->
     <script is:inline>
-      (function() {
-        const stored = localStorage.getItem('theme');
-        const theme = stored ? stored : 'dark';
-        document.documentElement.classList.add(`theme-${theme}`);
-      })();
+      ;(function () {
+        const stored = localStorage.getItem('theme')
+        let theme = stored
+        if (!stored) {
+          if (
+            window.matchMedia &&
+            window.matchMedia('(prefers-color-scheme: dark)').matches
+          ) {
+            theme = 'midnight'
+          } else {
+            theme = 'mint'
+          }
+        }
+
+        if (theme !== 'midnight') {
+          document.documentElement.classList.add(`theme-${theme}`)
+        }
+      })()
     </script>
   </head>
-  <body class="font-sans antialiased">
+  <body
+    class="font-sans antialiased flex flex-col min-h-screen px-6 md:px-12 max-w-4xl mx-auto"
+  >
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <Header />
-    <main id="main-content">
+    <main
+      id="main-content"
+      class="flex-grow flex flex-col justify-center py-10 space-y-12 w-full"
+    >
       <slot />
     </main>
     <Footer />
