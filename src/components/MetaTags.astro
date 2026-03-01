@@ -1,5 +1,5 @@
 ---
-interface Props {
+export interface Props {
   title: string
   description: string
   image: string
@@ -11,13 +11,13 @@ interface Props {
   }
 }
 
-const { title, description, image, canonicalURL, isHomepage = false, article } = Astro.props
+const { title, description, image, canonicalURL, isHomepage = false, article } = Astro.props as Props
 const fullTitle =
   title === 'Home'
     ? 'Sami Bashraheel — Web & AI Developer'
     : `${title} | Sami Bashraheel`
 
-const absoluteImage = new URL(image, Astro.site).href
+const absoluteImage = new URL(image, Astro.site || 'https://sami.codes').href
 const ogType = article ? 'article' : 'website'
 ---
 
