@@ -31,18 +31,15 @@ const posts = (await getCollection('blog'))
       Output
     </h2>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {
-        projects.map((project) => (
-          <ProjectCard
-            title={project.data.title}
-            description={project.data.description}
-            liveUrl={project.data.liveUrl}
-            githubUrl={project.data.githubUrl}
-            techStack={project.data.techStack}
-          />
-        ))
-      }
+    <div
+      class="text-sm text-text-secondary font-mono border-l-2 border-brand/50 pl-4 py-3 bg-surface-alt/50 rounded-r"
+    >
+      > Initiating cargo run --release...<br />
+      > Compiling side-projects (1/42)...<br />
+      > Wait, who wrote this legacy spaghetti code?<br />
+      <span class="text-brand inline-block mt-2 animate-pulse"
+        >_ Building in progress. Check back soon.</span
+      >
     </div>
   </section>
 
