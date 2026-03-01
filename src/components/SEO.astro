@@ -4,9 +4,10 @@ interface Props {
   description: string
   image: string
   canonicalURL: string
+  isHomepage?: boolean
 }
 
-const { title, description, image, canonicalURL } = Astro.props
+const { title, description, image, canonicalURL, isHomepage = false } = Astro.props
 const fullTitle =
   title === 'Home'
     ? 'Sami Bashraheel — Web & AI Developer'
@@ -37,22 +38,26 @@ const absoluteImage = new URL(image, Astro.site).href
 <meta property="twitter:image" content={absoluteImage} />
 <meta property="twitter:site" content="@madebysami" />
 
-<!-- Structured Data: Person (JSON-LD) -->
-<script
-  type="application/ld+json"
-  set:html={JSON.stringify({
-    '@context': 'https://schema.org',
-    '@type': 'Person',
-    name: 'Sami Bashraheel',
-    url: 'https://sami.codes',
-    jobTitle: 'Web & AI Developer',
-    sameAs: [
-      'https://github.com/sami',
-      'https://x.com/madebysami',
-      'https://dev.to/sami',
-    ],
-  })}
-/>
+<!-- Structured Data: Person (JSON-LD) — homepage only -->
+{
+  isHomepage && (
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        name: 'Sami Bashraheel',
+        url: 'https://sami.codes',
+        jobTitle: 'Web & AI Developer',
+        sameAs: [
+          'https://github.com/sami',
+          'https://x.com/madebysami',
+          'https://dev.to/sami',
+        ],
+      })}
+    />
+  )
+}
 
 <!-- Sitemap -->
 <link rel="sitemap" href="/sitemap-index.xml" />
