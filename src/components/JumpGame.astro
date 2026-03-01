@@ -2,133 +2,242 @@
 // The game logic runs entirely client-side
 ---
 
-<section class="mx-auto max-w-5xl px-4 py-section text-center">
-  <p
-    class="mb-4 text-sm text-text-secondary"
+<section class="w-full" aria-labelledby="game-heading">
+  <h2 id="game-heading" class="sr-only">Interactive Jump Game</h2>
+  <div
+    id="game-container"
+    role="application"
+    aria-label="Jump game - Press space or tap to jump over obstacles"
+    class="relative mx-auto w-full h-[140px] overflow-hidden border-b-2 border-brand transition-colors duration-500"
   >
-    Bored? Try the jump game. Press <kbd
-      class="rounded bg-surface-alt px-2 py-0.5 font-mono text-xs"
-      >Space</kbd
-    > or tap to play.
-  </p>
-  <div class="mx-auto w-full max-w-md">
-    <canvas
-      id="jump-game"
-      width="400"
-      height="150"
-      class="w-full rounded-card border border-slate-200"
-      tabindex="0"
-      role="img"
-      aria-label="A simple jump game — press Space or tap to make the character jump over obstacles"
+    <canvas id="gameCanvas" aria-label="Game canvas" class="block w-full h-full"
     ></canvas>
-    <p
-      id="game-score"
-      class="mt-2 font-mono text-sm text-text-secondary"
+    <div
+      id="game-overlay"
+      class="absolute inset-0 bg-surface/90 flex flex-col items-center justify-center z-10 transition-colors duration-500"
     >
-      Tap / Space to start
-    </p>
+      <p
+        class="text-sm uppercase tracking-widest font-bold font-mono mb-2 text-brand"
+      >
+        System Idle
+      </p>
+      <button
+        id="start-btn"
+        class="px-6 py-2 rounded shadow-lg font-mono text-sm font-bold transition-transform hover:scale-105 bg-brand text-surface"
+        aria-label="Start the jump game"
+      >
+        INITIATE
+      </button>
+      <p class="text-xs mt-3 font-mono text-text-secondary">Tap / Space</p>
+    </div>
   </div>
 </section>
+<div id="game-announcer" class="sr-only" aria-live="polite" aria-atomic="true">
+</div>
 
 <script>
-  const canvas = document.getElementById('jump-game') as HTMLCanvasElement
-  const ctx = canvas.getContext('2d')!
-  const scoreEl = document.getElementById('game-score')!
+  // Game Logic strictly ported from reference script.js
+  const container = document.getElementById('game-container')
+  const canvas = document.getElementById('gameCanvas') as HTMLCanvasElement
+  const ctx = canvas.getContext('2d')
+  const overlay = document.getElementById('game-overlay')
+  const startBtn = document.getElementById('start-btn')
+  const gameAnnouncer = document.getElementById('game-announcer')
 
-  let player = { x: 50, y: 110, w: 20, h: 20, vy: 0, grounded: true }
-  let obstacles: { x: number; w: number; h: number }[] = []
-  let score = 0
+  const FPS = 60
+  const frameDuration = 1000 / FPS
+  let lastFrameTime = 0
+
+  function resize() {
+    if (!container) return
+    canvas.width = container.offsetWidth
+    canvas.height = container.offsetHeight
+  }
+
+  if (container) {
+    window.addEventListener('resize', resize)
+    resize()
+  }
+
   let gameRunning = false
-  let animId = 0
-  const gravity = 0.6
-  const jumpForce = -10
-  const speed = 3
-  const minObstacleGap = 120 // Minimum px between obstacles
-  let lastObstacleX = 0
+  let animationId
+  let score = 0
+  let lastAnnouncedScore = 0
+  let gameSpeed = 3
 
-  function reset() {
-    player = { x: 50, y: 110, w: 20, h: 20, vy: 0, grounded: true }
-    obstacles = []
-    score = 0
-    gameRunning = true
-    lastObstacleX = 0
-  }
+  let colPlayer = '#38BDF8'
+  let colObs = '#EF4444'
+  let colAccent = '#38BDF8'
 
-  function jump() {
-    if (!gameRunning) {
-      reset()
-      loop()
-      return
-    }
-    if (player.grounded) {
-      player.vy = jumpForce
-      player.grounded = false
+  function updateGameColors() {
+    const s = getComputedStyle(document.documentElement)
+    colPlayer = s.getPropertyValue('--color-brand').trim() || '#38BDF8'
+    // Fallback for obs: reuse brand if obs variable isn't mapped, reference used custom var but we'll use text-secondary for contrast.
+    colObs = s.getPropertyValue('--color-text-secondary').trim() || '#EF4444'
+    colAccent = s.getPropertyValue('--color-brand').trim() || '#38BDF8'
+
+    if (!gameRunning && ctx) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
     }
   }
 
-  canvas.addEventListener('click', jump)
-  canvas.addEventListener('keydown', (e) => {
-    if (e.code === 'Space') {
-      e.preventDefault()
-      jump()
-    }
+  // Observe theme changes
+  const observer = new MutationObserver(() => updateGameColors())
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['class'],
   })
 
-  function loop() {
-    if (!gameRunning) return
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
+  const player = { x: 50, y: 0, w: 20, h: 20, dy: 0, jump: -9, grounded: false }
+  const gravity = 0.5
+  let obstacles = []
 
-    // Detect dark mode
-    const isDark = document.documentElement.classList.contains('dark')
-    const fgColour = isDark ? '#F1F5F9' : '#1E293B'
+  function update(currentTime) {
+    if (!gameRunning || !ctx) return
 
-    // Player
-    player.vy += gravity
-    player.y += player.vy
-    if (player.y >= 110) {
-      player.y = 110
-      player.vy = 0
-      player.grounded = true
+    if (currentTime - lastFrameTime < frameDuration) {
+      animationId = requestAnimationFrame(update)
+      return
     }
-    ctx.fillStyle = '#6366F1'
+
+    lastFrameTime = currentTime
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    const groundY = canvas.height
+
+    player.dy += gravity
+    player.y += player.dy
+
+    if (player.y + player.h > groundY) {
+      player.y = groundY - player.h
+      player.dy = 0
+      player.grounded = true
+    } else {
+      player.grounded = false
+    }
+
+    ctx.fillStyle = colPlayer
     ctx.fillRect(player.x, player.y, player.w, player.h)
 
-    // Obstacles
-    // Lower spawn rate and enforce minimum gap
-    if (
-      (obstacles.length === 0 ||
-        obstacles[obstacles.length - 1].x < canvas.width - minObstacleGap) &&
-      Math.random() < 0.008
-    ) {
-      obstacles.push({ x: canvas.width, w: 15, h: 20 + Math.random() * 15 })
+    const difficulty = Math.min(score / 100, 1)
+    gameSpeed = 3 + difficulty * 5
+    const minGap = gameSpeed * 22 + 100 * (1 - difficulty)
+    const lastObs = obstacles[obstacles.length - 1]
+    const dist = lastObs ? canvas.width - lastObs.x : 9999
+
+    if (dist > minGap + Math.random() * 150) {
+      obstacles.push({
+        x: canvas.width,
+        w: 15 + Math.random() * 10,
+        h: 20 + Math.random() * 20,
+      })
     }
+
     obstacles.forEach((obs, i) => {
-      obs.x -= speed
-      ctx.fillStyle = fgColour
-      ctx.fillRect(obs.x, 130 - obs.h, obs.w, obs.h)
-      // Collision
+      obs.x -= gameSpeed
+      ctx.fillStyle = colObs
+      ctx.fillRect(obs.x, groundY - obs.h, obs.w, obs.h)
+
       if (
         player.x < obs.x + obs.w &&
         player.x + player.w > obs.x &&
-        player.y + player.h > 130 - obs.h
+        player.y + player.h > groundY - obs.h + 5
       ) {
-        gameRunning = false
-        scoreEl.textContent = `Game over! Score: ${score}. Tap to restart.`
-        return
+        gameOver()
       }
-      if (obs.x + obs.w < 0) obstacles.splice(i, 1)
+
+      if (obs.x + obs.w < 0) {
+        obstacles.shift()
+        score++
+
+        if (
+          score > 0 &&
+          score % 10 === 0 &&
+          score !== lastAnnouncedScore &&
+          gameAnnouncer
+        ) {
+          gameAnnouncer.textContent = `Score: ${score}`
+          lastAnnouncedScore = score
+        }
+      }
     })
 
-    // Ground
-    ctx.strokeStyle = fgColour
-    ctx.beginPath()
-    ctx.moveTo(0, 130)
-    ctx.lineTo(canvas.width, 130)
-    ctx.stroke()
+    ctx.fillStyle = colAccent
+    ctx.font = 'bold 12px "Fira Code", monospace'
+    ctx.fillText(`SCORE: ${score}`, canvas.width - 100, 30)
 
-    score++
-    scoreEl.textContent = `Score: ${score}`
-
-    if (gameRunning) animId = requestAnimationFrame(loop)
+    animationId = requestAnimationFrame(update)
   }
+
+  function jump() {
+    if (player.grounded && gameRunning) player.dy = player.jump
+  }
+
+  function gameOver() {
+    gameRunning = false
+    cancelAnimationFrame(animationId)
+    if (overlay && startBtn && gameAnnouncer) {
+      overlay.style.display = 'flex'
+      const pTag = overlay.querySelector('p')
+      if (pTag) pTag.textContent = `SCORE: ${score}`
+      startBtn.textContent = 'RETRY'
+      gameAnnouncer.textContent = `Game over! Final score: ${score}. Press the retry button or space to play again.`
+    }
+  }
+
+  function reset() {
+    resize()
+    updateGameColors()
+    obstacles = []
+    score = 0
+    lastAnnouncedScore = 0
+    player.y = canvas.height - player.h
+    player.dy = 0
+    gameRunning = true
+    lastFrameTime = 0
+    if (overlay && gameAnnouncer) {
+      overlay.style.display = 'none'
+      gameAnnouncer.textContent =
+        'Game started! Press space or tap to jump over obstacles.'
+    }
+    animationId = requestAnimationFrame(update)
+  }
+
+  if (startBtn && container) {
+    startBtn.addEventListener('click', (e) => {
+      e.stopPropagation()
+      reset()
+    })
+    container.addEventListener('mousedown', () => {
+      if (gameRunning) jump()
+    })
+
+    container.addEventListener(
+      'touchstart',
+      (e) => {
+        if (e.target === startBtn) return
+        e.preventDefault()
+        if (gameRunning) jump()
+      },
+      { passive: false }
+    )
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if (e.code === 'Space') {
+      if (
+        !gameRunning &&
+        overlay &&
+        overlay.style.display !== 'none' &&
+        document.activeElement !== startBtn
+      ) {
+        reset()
+      } else {
+        jump()
+      }
+      if (e.target === document.body) e.preventDefault()
+    }
+  })
+
+  // Initial color fetch
+  setTimeout(updateGameColors, 100)
 </script>
