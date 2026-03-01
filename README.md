@@ -1,31 +1,34 @@
-# Astro Starter Kit: Minimal
+# sami.codes
 
-```sh
-npm create astro@latest -- --template minimal
-```
+The personal digital garden and portfolio of Sami Bashraheel, rebuilt with Astro, Tailwind CSS, and custom vanilla JavaScript integrations. 
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+This repository serves as my base for development experiments, writing, and showcasing my work. 
 
-## 🚀 Project Structure
+## 🚀 Features
 
-Inside of your Astro project, you'll see the following folders and files:
+- **15 Dynamic Themes:** A highly customized global CSS injection that rotates 15 unique color themes (Midnight, Mint, Flashbang, Retrowave, etc) natively driven by a humorous, complaining UI toggle.
+- **Astro Content Collections:** Type-safe markdown (`.mdx`) processing for both the `projects` output section and the `blog` transmission logs. 
+- **Developer Aesthetics:** Tailwind typography overrides mapping to the global themes, interactive skill pills, and terminal-inspired UI interactions (like `cd ../` return links).
+- **Canvas Game:** A fully integrated JavaScript canvas jumping game running completely isolated but strictly subscribing to the active theme's colors.
+
+## 📁 Project Structure
 
 ```text
 /
-├── public/
+├── public/                 # Static assets (Favicon, OG images)
 ├── src/
-│   └── pages/
-│       └── index.astro
+│   ├── components/         # Reusable Astro UI components (Hero, Game, Cards)
+│   ├── content/            # Type-safe data collections 
+│   │   ├── blog/           # MDX Transmission logs
+│   │   ├── projects/       # MD Output logs
+│   │   └── config.ts       # Zod schemas definitions
+│   ├── layouts/            # Base layout wrapper & global head injection
+│   ├── pages/              # Astro routing (index, /blog)
+│   └── styles/             # Global.css featuring the 15 dynamic themes
 └── package.json
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
+## 🧞 Development Commands
 
 All commands are run from the root of the project, from a terminal:
 
@@ -34,10 +37,11 @@ All commands are run from the root of the project, from a terminal:
 | `npm install`             | Installs dependencies                            |
 | `npm run dev`             | Starts local dev server at `localhost:4321`      |
 | `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+| `npm run lint`            | Run Prettier and Astro Checkers                  |
 
-## 👀 Want to learn more?
+## 🛠️ Stack
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- **Framework:** [Astro](https://astro.build/)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **Typography:** Inter & Fira Code
+- **Deployment:** GitHub Pages / Cloudflare Pages
