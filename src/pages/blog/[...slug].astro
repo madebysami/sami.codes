@@ -50,7 +50,16 @@ const { Content } = await post.render()
           class="flex gap-2 flex-wrap text-brand list-none p-0 m-0"
           role="list"
         >
-          {post.data.tags.map((tag: string) => <li>{tag}</li>)}
+          {post.data.tags.map((tag: string) => (
+            <li>
+              <a
+                href={`/blog/tags/${tag.toLowerCase()}`}
+                class="text-brand hover:underline transition-colors"
+              >
+                {tag}
+              </a>
+            </li>
+          ))}
         </ul>
       </div>
     </div>

@@ -1,10 +1,23 @@
 ---
 import { getCollection } from 'astro:content'
-import BaseLayout from '../../layouts/BaseLayout.astro'
+import BaseLayout from '../../../layouts/BaseLayout.astro'
 
-const posts = (await getCollection('blog'))
-  .filter((post) => !post.data.draft)
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+export async function getStaticPaths() {
+  const posts = await getCollection('blog')
+  const allTags = [...new Set(posts.flatMap((post) => post.data.tags))]
+
+  return allTags.map((tag) => ({
+    params: { tag: tag.toLowerCase() },
+    props: {
+      tag,
+      posts: posts
+        .filter((post) => !post.data.draft && post.data.tags.includes(tag))
+        .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()),
+    },
+  }))
+}
+
+const { tag, posts } = Astro.props
 
 function readingTime(body: string): string {
   const words = body.split(/\s+/).length
@@ -14,25 +27,25 @@ function readingTime(body: string): string {
 ---
 
 <BaseLayout
-  title="Transmissions"
-  description="Logs, updates, and ramblings about software and AI."
+  title={`#${tag}`}
+  description={`All posts tagged with "${tag}" on sami.codes.`}
 >
-  <section aria-labelledby="blog-heading" class="w-full">
+  <section aria-labelledby="tag-heading" class="w-full">
     <div class="mb-6">
       <a
-        href="/"
+        href="/blog"
         class="block mb-6 text-sm font-mono text-brand hover:underline"
       >
         cd ../
       </a>
       <h1
-        id="blog-heading"
-        class="text-xs uppercase tracking-widest font-bold font-mono text-brand mb-4"
+        id="tag-heading"
+        class="text-xs uppercase tracking-widest font-bold font-mono text-brand mb-2"
       >
-        Transmissions
+        #{tag}
       </h1>
       <p class="text-text-secondary text-sm">
-        Logs, updates, and ramblings about software and AI.
+        {posts.length} {posts.length === 1 ? 'post' : 'posts'} tagged with "{tag}"
       </p>
     </div>
 
@@ -61,16 +74,16 @@ function readingTime(body: string): string {
               </p>
               <div class="flex flex-wrap items-center justify-between gap-4">
                 <ul
-                  class="flex gap-2 font-mono text-xs flex-wrap text-brand list-none p-0 m-0"
+                  class="flex gap-2 font-mono text-xs flex-wrap list-none p-0 m-0"
                   role="list"
                 >
-                  {post.data.tags.map((tag: string) => (
+                  {post.data.tags.map((t: string) => (
                     <li>
                       <a
-                        href={`/blog/tags/${tag.toLowerCase()}`}
-                        class="text-brand hover:underline transition-colors"
+                        href={`/blog/tags/${t.toLowerCase()}`}
+                        class={`transition-colors ${t === tag ? 'text-text-primary font-bold' : 'text-brand hover:underline'}`}
                       >
-                        {tag}
+                        {t}
                       </a>
                     </li>
                   ))}

@@ -81,8 +81,15 @@ const posts = (await getCollection('blog'))
                 role="list"
               >
                 {post.data.tags.slice(0, 3).map((tag: string) => (
-                  <li>{tag}</li>
-                ))}
+                    <li>
+                      <a
+                        href={`/blog/tags/${tag.toLowerCase()}`}
+                        class="text-brand hover:underline transition-colors"
+                      >
+                        {tag}
+                      </a>
+                    </li>
+                  ))}
               </ul>
             </div>
           </a>
