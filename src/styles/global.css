@@ -238,32 +238,6 @@ body {
   position: relative;
 }
 
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at 50% 50%, var(--color-brand), transparent 70%);
-  opacity: 0.15;
-  z-index: -1;
-  pointer-events: none;
-  animation: pulse-bg 10s ease-in-out infinite alternate;
-}
-
-@keyframes pulse-bg {
-  0% {
-    transform: scale(1);
-    opacity: 0.15;
-  }
-
-  100% {
-    transform: scale(1.5);
-    opacity: 0.25;
-  }
-}
-
 /* --- LOGO STYLES --- */
 .logo-bracket {
   fill: var(--color-brand);
