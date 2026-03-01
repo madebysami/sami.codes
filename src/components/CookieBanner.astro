@@ -32,7 +32,8 @@
   </div>
 </div>
 
-<script lang="ts">
+<script>
+  // @ts-nocheck
   const banner = document.getElementById('cookie-banner')
   const acceptBtn = document.getElementById('cookie-accept')
   const declineBtn = document.getElementById('cookie-decline')
@@ -56,7 +57,7 @@
     }
   }
 
-  function handleConsent(accepted: boolean) {
+  function handleConsent(accepted) {
     if (accepted) {
       localStorage.setItem('cookieConsent', 'granted')
       // @ts-ignore
