@@ -2,9 +2,9 @@
 import { getCollection } from 'astro:content'
 import BaseLayout from '../layouts/BaseLayout.astro'
 import Hero from '../components/Hero.astro'
+import SocialLinks from '../components/SocialLinks.astro'
 import ProjectCard from '../components/ProjectCard.astro'
 import TechStack from '../components/TechStack.astro'
-import ContactSection from '../components/ContactSection.astro'
 import JumpGame from '../components/JumpGame.astro'
 
 const projects = (await getCollection('projects')).sort(
@@ -14,18 +14,19 @@ const projects = (await getCollection('projects')).sort(
 
 <BaseLayout title="Home">
   <Hero />
+  <SocialLinks />
+  <TechStack />
 
   <!-- Projects -->
-  <section id="projects" class="mx-auto max-w-5xl px-4 py-section">
+  <section aria-labelledby="projects-heading" class="w-full">
     <h2
-      class="mb-2 text-heading font-bold text-text-primary"
+      id="projects-heading"
+      class="text-xs uppercase tracking-widest font-bold mb-6 font-mono text-brand"
     >
-      Projects
+      Output
     </h2>
-    <p class="mb-8 text-text-secondary">
-      Things I've built and shipped.
-    </p>
-    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {
         projects.map((project) => (
           <ProjectCard
@@ -40,7 +41,5 @@ const projects = (await getCollection('projects')).sort(
     </div>
   </section>
 
-  <TechStack />
   <JumpGame />
-  <ContactSection />
 </BaseLayout>
