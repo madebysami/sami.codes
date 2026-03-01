@@ -52,13 +52,13 @@
 
 /* 2. MINT (Default Light) */
 .theme-mint {
-  --color-brand: #84B59F;
-  --color-brand-light: #a3c9b8;
-  --color-brand-dark: #63987f;
+  --color-brand: #3D7A5F;
+  --color-brand-light: #5A9A80;
+  --color-brand-dark: #2B5E47;
   --color-surface: #F2F7F5;
   --color-surface-alt: #FFFFFF;
   --color-text-primary: #354F52;
-  --color-text-secondary: #5F7D78;
+  --color-text-secondary: #4A6B66;
   --cta-bg: #2C4F46;
   --cta-text: #FFFFFF;
 }
