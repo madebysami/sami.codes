@@ -50,16 +50,18 @@ const { Content } = await post.render()
           class="flex gap-2 flex-wrap text-brand list-none p-0 m-0"
           role="list"
         >
-          {post.data.tags.map((tag: string) => (
-            <li>
-              <a
-                href={`/blog/tags/${tag.toLowerCase()}`}
-                class="text-brand hover:underline transition-colors"
-              >
-                {tag}
-              </a>
-            </li>
-          ))}
+          {
+            post.data.tags.map((tag: string) => (
+              <li>
+                <a
+                  href={`/blog/tags/${tag.toLowerCase()}`}
+                  class="text-brand hover:underline transition-colors"
+                >
+                  {tag}
+                </a>
+              </li>
+            ))
+          }
         </ul>
       </div>
     </div>
@@ -69,7 +71,7 @@ const { Content } = await post.render()
       The default prose colors are overridden to inherit our dynamic CSS map.
     -->
     <div
-      class="prose prose-slate max-w-none prose-headings:text-text-primary prose-headings:font-bold prose-p:text-text-secondary prose-p:leading-relaxed prose-a:text-brand prose-a:transition-colors hover:prose-a:text-brand/80 prose-strong:text-text-primary prose-strong:font-bold prose-code:text-brand prose-code:bg-surface-alt prose-code:px-1 prose-code:rounded prose-code:before:content-none prose-code:after:content-none prose-pre:bg-surface-alt prose-pre:border prose-pre:border-brand/20 prose-ul:text-text-secondary prose-li:text-text-secondary prose-li:marker:text-brand prose-blockquote:border-l-brand prose-blockquote:text-text-secondary prose-blockquote:bg-surface-alt/50 prose-blockquote:px-4 prose-blockquote:py-1 prose-blockquote:rounded-r prose-img:rounded-lg prose-img:border prose-img:border-brand/20 prose-hr:border-brand/20"
+      class="prose prose-slate max-w-none prose-headings:text-text-primary prose-headings:font-bold prose-p:text-text-secondary prose-p:leading-relaxed prose-a:text-brand prose-a:transition-colors hover:prose-a:text-brand/80 prose-strong:text-text-primary prose-strong:font-bold prose-code:text-brand prose-code:bg-surface-alt prose-code:px-1 prose-code:rounded prose-code:before:content-none prose-code:after:content-none prose-pre:bg-[#0d1117] prose-pre:text-[#c9d1d9] prose-pre:border prose-pre:border-brand/20 [&_pre_code]:!bg-transparent [&_pre_code]:!text-inherit prose-ul:text-text-secondary prose-li:text-text-secondary prose-li:marker:text-brand prose-blockquote:border-l-brand prose-blockquote:text-text-secondary prose-blockquote:bg-surface-alt/50 prose-blockquote:px-4 prose-blockquote:py-1 prose-blockquote:rounded-r prose-img:rounded-lg prose-img:border prose-img:border-brand/20 prose-hr:border-brand/20"
     >
       <Content />
     </div>
