@@ -10,6 +10,11 @@ import JumpGame from '../components/JumpGame.astro'
 const projects = (await getCollection('projects')).sort(
   (a, b) => a.data.order - b.data.order
 )
+
+const posts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3)
 ---
 
 <BaseLayout title="Home">
@@ -36,6 +41,59 @@ const projects = (await getCollection('projects')).sort(
             githubUrl={project.data.githubUrl}
             techStack={project.data.techStack}
           />
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Transmissions / Blog -->
+  <section aria-labelledby="blog-heading" class="w-full">
+    <div class="flex items-center justify-between mb-6">
+      <h2
+        id="blog-heading"
+        class="text-xs uppercase tracking-widest font-bold font-mono text-brand"
+      >
+        Transmissions
+      </h2>
+      <a
+        href="/blog"
+        class="text-xs font-mono text-text-secondary hover:text-brand transition-colors"
+      >
+        View All ↗
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {
+        posts.map((post) => (
+          <a href={`/blog/${post.slug}`} class="block group h-full">
+            <div class="tech-card rounded-lg p-6 h-full flex flex-col bg-surface border border-brand/20 transition-all duration-300 hover:-translate-y-1 hover:border-brand hover:shadow-lg hover:shadow-brand/20">
+              <time
+                datetime={post.data.pubDate.toISOString()}
+                class="text-xs font-mono text-text-secondary mb-2 block"
+              >
+                {post.data.pubDate.toLocaleDateString('en-GB', {
+                  year: 'numeric',
+                  month: 'numeric',
+                  day: 'numeric',
+                })}
+              </time>
+              <h3 class="text-lg font-bold mb-2 group-hover:underline text-text-primary line-clamp-2">
+                {post.data.title}
+              </h3>
+              <p class="text-sm mb-4 text-text-secondary flex-grow line-clamp-3">
+                {post.data.description}
+              </p>
+              <ul
+                class="flex gap-2 font-mono text-xs flex-wrap text-brand list-none p-0 m-0"
+                role="list"
+              >
+                {post.data.tags.slice(0, 3).map((tag: string) => (
+                  <li>{tag}</li>
+                ))}
+              </ul>
+            </div>
+          </a>
         ))
       }
     </div>
