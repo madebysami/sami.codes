@@ -67,7 +67,38 @@
             themeObj.name.charAt(0).toUpperCase() + themeObj.name.slice(1)
           announcer.textContent = `Theme changed to ${uppercaseName}. ${complaint}`
         })
+
+      updateFavicon()
     }, 100)
+  }
+
+  function updateFavicon() {
+    const styles = getComputedStyle(document.documentElement)
+    const brand = styles.getPropertyValue('--color-brand').trim() || '#38BDF8'
+    const surface =
+      styles.getPropertyValue('--color-surface').trim() || '#0F172A'
+    const textPrimary =
+      styles.getPropertyValue('--color-text-primary').trim() || '#F1F5F9'
+
+    const svg = `<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="64" height="64" fill="${surface}"/>
+  <text x="2" y="45" font-family="monospace" font-size="24" fill="${brand}" font-weight="bold">&lt;</text>
+  <text x="18" y="45" font-family="monospace" font-size="24" fill="${textPrimary}" font-weight="bold">S</text>
+  <text x="34" y="45" font-family="monospace" font-size="24" fill="${brand}" font-weight="bold">/&gt;</text>
+</svg>`
+
+    const encoded = `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`
+
+    document
+      .querySelectorAll(
+        'link[rel="icon"], link[rel="alternate icon"], link[rel="apple-touch-icon"]'
+      )
+      .forEach((link) => {
+        // @ts-ignore
+        link.href = encoded
+        // @ts-ignore
+        if (link.rel === 'icon') link.type = 'image/svg+xml'
+      })
   }
 
   function getTheme() {
