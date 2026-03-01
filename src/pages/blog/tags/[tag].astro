@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content'
+import { getCollection, type CollectionEntry } from 'astro:content'
 import BaseLayout from '../../../layouts/BaseLayout.astro'
 
 export async function getStaticPaths() {
@@ -17,7 +17,12 @@ export async function getStaticPaths() {
   }))
 }
 
-const { tag, posts } = Astro.props
+interface Props {
+  tag: string
+  posts: CollectionEntry<'blog'>[]
+}
+
+const { tag, posts } = Astro.props as Props
 
 function readingTime(body: string): string {
   const words = body.split(/\s+/).length
