@@ -65,6 +65,40 @@ const {
         }
       })()
     </script>
+
+    <!-- Google Analytics -->
+    {
+      import.meta.env.PUBLIC_GA_ID && (
+        <>
+          <script
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_GA_ID}`}
+          />
+          <script is:inline define:vars={{ gaId: import.meta.env.PUBLIC_GA_ID }}>
+            window.dataLayer = window.dataLayer || []
+            function gtag() {
+              dataLayer.push(arguments)
+            }
+            gtag('js', new Date())
+
+            // Default to denied
+            gtag('consent', 'default', {
+              analytics_storage: 'denied',
+            })
+
+            // Check if user already granted consent
+            const consent = localStorage.getItem('cookieConsent')
+            if (consent === 'granted') {
+              gtag('consent', 'update', {
+                analytics_storage: 'granted',
+              })
+            }
+
+            gtag('config', gaId)
+          </script>
+        </>
+      )
+    }
   </head>
   <body
     class="font-sans antialiased flex flex-col min-h-screen px-6 md:px-12 max-w-4xl mx-auto"
