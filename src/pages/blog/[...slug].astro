@@ -18,6 +18,10 @@ const { Content } = await post.render()
   title={post.data.title}
   description={post.data.description}
   canonicalURL={`https://sami.codes/blog/${post.slug}`}
+  article={{
+    publishedTime: post.data.pubDate.toISOString(),
+    tags: post.data.tags,
+  }}
 >
   <article class="w-full">
     <div class="mb-8">

@@ -11,6 +11,10 @@ interface Props {
   image?: string
   canonicalURL?: string
   isHomepage?: boolean
+  article?: {
+    publishedTime: string
+    tags: string[]
+  }
 }
 
 const {
@@ -19,6 +23,7 @@ const {
   image = '/og-image.jpg',
   canonicalURL = Astro.url.href,
   isHomepage = false,
+  article,
 } = Astro.props
 ---
 
@@ -38,6 +43,7 @@ const {
       image={image}
       canonicalURL={canonicalURL}
       isHomepage={isHomepage}
+      article={article}
     />
 
     <!-- Theme logic handled by ThemeToggle.astro -->
